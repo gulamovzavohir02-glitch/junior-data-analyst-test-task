@@ -64,11 +64,17 @@ def prime_factors(n: int) -> list[int]:
 
 def expected_distinct_species(species_count: int = 6, visits: int = 6) -> float:
     """Expected number of species observed in independent uniform visits."""
+    if species_count < 1:
+        raise ValueError("species_count must be positive")
+    if visits < 0:
+        raise ValueError("visits must be non-negative")
     return species_count * (1 - ((species_count - 1) / species_count) ** visits)
 
 
 def expected_two_round_winners(participant_count: int = 80) -> float:
     """Expected number of participants who win both independent pairings."""
+    if participant_count < 2 or participant_count % 2:
+        raise ValueError("participant_count must be an even integer of at least 2")
     opponents = participant_count - 1
     return sum((weaker_opponents / opponents) ** 2 for weaker_opponents in range(participant_count))
 
@@ -86,6 +92,8 @@ def roc_auc_from_pairs(labels: Sequence[int], scores: Sequence[float]) -> float:
     """Compute ROC-AUC as the share of correctly ordered positive-negative pairs."""
     if len(labels) != len(scores):
         raise ValueError("labels and scores must have equal length")
+    if any(label not in (0, 1) for label in labels):
+        raise ValueError("labels must contain only 0 and 1")
 
     positive_scores = [score for label, score in zip(labels, scores) if label == 1]
     negative_scores = [score for label, score in zip(labels, scores) if label == 0]
