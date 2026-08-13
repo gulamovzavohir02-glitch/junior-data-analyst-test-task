@@ -23,6 +23,14 @@ python -m unittest discover -s tests -v
 python solutions.py
 ```
 
+Полная проверка, включая SQL и запуск ноутбука:
+
+```bash
+python -m pip install -r requirements-ci.txt
+python tests/check_sql.py
+python tests/check_notebook.py
+```
+
 ## Блок 1. Теория вероятности и логика
 
 ### 1. Фермер
